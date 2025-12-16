@@ -29,8 +29,7 @@ Route::controller(AuthController::class)
     Route::post('resend_code', 'resend_code');
     Route::post('reset_password', 'reset_password');
     Route::post('confirm_reset_password','confirm_reset_password');
-    Route::post('patient/login', 'patientLogin');
-    Route::post('doctor/login', 'doctorLogin');
+    Route::post('login', 'Login');
 
     Route::post('logout', 'logout')->middleware('auth:sanctum');
     });

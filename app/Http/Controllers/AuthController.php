@@ -80,7 +80,7 @@ class AuthController extends Controller
 
 
 
-    public function patientLogin(Request $request)
+    public function Login(Request $request)
     {
         $data = $request->validate([
             'email' => 'required|email',
@@ -92,39 +92,16 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-        if ( $user['role'] == 'doctor' ) {
-            return $this->error('can not login as doctor ',401);
-        }
+        
         $token = $user->createToken('api-token')->plainTextToken;
 
-        $response['$user'] = $user;
+        $response['user'] = $user;
+        $response['role'] = $user['role'];
         $response['token'] = $token;
         return $this->success($response, 'Verification code sent to your email',200);
         
     }
-
-    public function doctorLogin(Request $request)
-    {
-        $data = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        if (!Auth::attempt($data)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        $user = Auth::user();
-        if ( $user['role'] == 'patient' ) {
-            return $this->error('can not login as patient ',401);
-        }
-        $token = $user->createToken('api-token')->plainTextToken;
-
-        $response['$user'] = $user;
-        $response['token'] = $token;
-        return $this->success($response, 'Verification code sent to your email',200);
-        
-    }
+   
 
 
 
