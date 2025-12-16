@@ -5,6 +5,14 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    'guards' => [
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
+        ],
+    ],
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
