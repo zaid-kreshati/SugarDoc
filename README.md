@@ -64,6 +64,8 @@ Start the queue worker:
 
 ```bash
 php artisan queue:work
+php artisan schedule:work
+
 ```
 
 > ⚠️ Make sure your queue connection is correctly configured in `.env`.
@@ -152,14 +154,7 @@ php artisan tinker
 
 ---
 
-## 🔜 Next Steps
 
-* Doctor dashboard (patients list & search)
-* Patient profile management
-* Weekly health notifications
-* Role-based access middleware
-
----
 
 ## 📄 License
 

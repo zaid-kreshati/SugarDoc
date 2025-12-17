@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\NotificationController;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +50,22 @@ Route::middleware('auth:sanctum')->controller(ProfileController::class)->group(f
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/patients', [PatientController::class, 'index']);
 });
+
+
+Route::middleware('auth:sanctum')->post('/firebase-token', function (Request $request) {
+   
+     $validated = $request->validate([
+        'firebase_token' => 'required|string'
+    ]);
+    
+    $user = $request->user();
+    $user->firebase_token = $validated['firebase_token'];
+    $user->save();
+    
+    return response()->json(['message' => 'Token saved']);
+});
+Route::middleware('auth:sanctum')->controller(NotificationController::class)->group(function () {
+    Route::get('/notifications', 'index');
+});
+
+

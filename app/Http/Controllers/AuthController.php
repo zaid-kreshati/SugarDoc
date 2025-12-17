@@ -93,7 +93,10 @@ class AuthController extends Controller
 
         $user = Auth::user();
         
+        
         $token = $user->createToken('api-token')->plainTextToken;
+
+
 
         $response['user'] = $user;
         $response['role'] = $user['role'];
