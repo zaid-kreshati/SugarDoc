@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: laravel-backend
+    env: php
+    region: frankfurt  # Choose closest to your users
+    plan: free
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan key:generate --force
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    startCommand: php artisan serve --host=0.0.0.0 --port=10000
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: LOG_CHANNEL
+        value: stderr
+    autoDeploy: true
+    
+  # Queue Worker (Background Service)
+  - type: worker
+    name: laravel-queue
+    env: php
+    region: frankfurt
+    plan: free
+    buildCommand: composer install --no-dev --optimize-autoloader
+    startCommand: php artisan queue:work --tries=3
+    envVars:
+      - fromGroup: laravel-backend  # Shares env vars
+    
+  # Scheduler Worker (Background Service)
+  - type: worker
+    name: laravel-scheduler
+    env: php
+    region: frankfurt
+    plan: free
+    buildCommand: composer install --no-dev --optimize-autoloader
+    startCommand: php artisan schedule:work
+    envVars:
+      - fromGroup: laravel-backend

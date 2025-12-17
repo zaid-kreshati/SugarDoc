@@ -838,6 +838,14 @@
 							"body": "{\n    \"status\": true,\n    \"message\": \"Logged out successfully\",\n    \"data\": []\n}"
 						}
 					]
+				},
+				{
+					"name": "firebase-token",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},
@@ -1287,6 +1295,80 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"status\": true,\n    \"message\": \"user retrived successfully\",\n    \"data\": [\n        {\n            \"id\": 2,\n            \"name\": \"zaid232\",\n            \"email\": \"patient1@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0981396641\",\n            \"age\": 55,\n            \"created_at\": \"2025-12-16T22:44:06.000000Z\",\n            \"updated_at\": \"2025-12-16T22:49:10.000000Z\",\n            \"patient\": {\n                \"id\": 1,\n                \"user_id\": 2,\n                \"diabetes_type\": \"Syndrome-related Diabetes\",\n                \"hba1c\": \"6.80\",\n                \"created_at\": \"2025-12-16T22:44:06.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:06.000000Z\"\n            }\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Patient 2\",\n            \"email\": \"patient2@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0952879049\",\n            \"age\": 41,\n            \"created_at\": \"2025-12-16T22:44:06.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:06.000000Z\",\n            \"patient\": {\n                \"id\": 2,\n                \"user_id\": 3,\n                \"diabetes_type\": \"Secondary Diabetes due to Pancreatic Disease\",\n                \"hba1c\": \"7.10\",\n                \"created_at\": \"2025-12-16T22:44:06.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:06.000000Z\"\n            }\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Patient 3\",\n            \"email\": \"patient3@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0928834466\",\n            \"age\": 73,\n            \"created_at\": \"2025-12-16T22:44:07.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:07.000000Z\",\n            \"patient\": {\n                \"id\": 3,\n                \"user_id\": 4,\n                \"diabetes_type\": \"Syndrome-related Diabetes\",\n                \"hba1c\": \"8.10\",\n                \"created_at\": \"2025-12-16T22:44:07.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:07.000000Z\"\n            }\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Patient 4\",\n            \"email\": \"patient4@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0950996617\",\n            \"age\": 38,\n            \"created_at\": \"2025-12-16T22:44:07.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:07.000000Z\",\n            \"patient\": {\n                \"id\": 4,\n                \"user_id\": 5,\n                \"diabetes_type\": \"Age-related Diabetes\",\n                \"hba1c\": \"8.30\",\n                \"created_at\": \"2025-12-16T22:44:07.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:07.000000Z\"\n            }\n        },\n        {\n            \"id\": 6,\n            \"name\": \"Patient 5\",\n            \"email\": \"patient5@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0917733998\",\n            \"age\": 69,\n            \"created_at\": \"2025-12-16T22:44:08.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:08.000000Z\",\n            \"patient\": {\n                \"id\": 5,\n                \"user_id\": 6,\n                \"diabetes_type\": \"LADA - Latent Autoimmune Diabetes in Adults\",\n                \"hba1c\": \"5.70\",\n                \"created_at\": \"2025-12-16T22:44:08.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:08.000000Z\"\n            }\n        },\n        {\n            \"id\": 7,\n            \"name\": \"Patient 6\",\n            \"email\": \"patient6@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0970199998\",\n            \"age\": 49,\n            \"created_at\": \"2025-12-16T22:44:08.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:08.000000Z\",\n            \"patient\": {\n                \"id\": 6,\n                \"user_id\": 7,\n                \"diabetes_type\": \"Type 2\",\n                \"hba1c\": \"5.60\",\n                \"created_at\": \"2025-12-16T22:44:08.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:08.000000Z\"\n            }\n        },\n        {\n            \"id\": 8,\n            \"name\": \"Patient 7\",\n            \"email\": \"patient7@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0978990243\",\n            \"age\": 75,\n            \"created_at\": \"2025-12-16T22:44:08.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:08.000000Z\",\n            \"patient\": {\n                \"id\": 7,\n                \"user_id\": 8,\n                \"diabetes_type\": \"Type 2\",\n                \"hba1c\": \"9.30\",\n                \"created_at\": \"2025-12-16T22:44:08.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:08.000000Z\"\n            }\n        },\n        {\n            \"id\": 9,\n            \"name\": \"Patient 8\",\n            \"email\": \"patient8@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0988920276\",\n            \"age\": 29,\n            \"created_at\": \"2025-12-16T22:44:09.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:09.000000Z\",\n            \"patient\": {\n                \"id\": 8,\n                \"user_id\": 9,\n                \"diabetes_type\": \"LADA - Latent Autoimmune Diabetes in Adults\",\n                \"hba1c\": \"7.40\",\n                \"created_at\": \"2025-12-16T22:44:09.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:09.000000Z\"\n            }\n        },\n        {\n            \"id\": 10,\n            \"name\": \"Patient 9\",\n            \"email\": \"patient9@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0975935206\",\n            \"age\": 42,\n            \"created_at\": \"2025-12-16T22:44:09.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:09.000000Z\",\n            \"patient\": {\n                \"id\": 9,\n                \"user_id\": 10,\n                \"diabetes_type\": \"LADA - Latent Autoimmune Diabetes in Adults\",\n                \"hba1c\": \"9.30\",\n                \"created_at\": \"2025-12-16T22:44:09.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:09.000000Z\"\n            }\n        },\n        {\n            \"id\": 11,\n            \"name\": \"Patient 10\",\n            \"email\": \"patient10@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0959400801\",\n            \"age\": 71,\n            \"created_at\": \"2025-12-16T22:44:10.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:10.000000Z\",\n            \"patient\": {\n                \"id\": 10,\n                \"user_id\": 11,\n                \"diabetes_type\": \"Hormone-induced Diabetes\",\n                \"hba1c\": \"6.40\",\n                \"created_at\": \"2025-12-16T22:44:10.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:10.000000Z\"\n            }\n        },\n        {\n            \"id\": 12,\n            \"name\": \"Patient 11\",\n            \"email\": \"patient11@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0956702398\",\n            \"age\": 18,\n            \"created_at\": \"2025-12-16T22:44:10.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:10.000000Z\",\n            \"patient\": {\n                \"id\": 11,\n                \"user_id\": 12,\n                \"diabetes_type\": \"LADA - Latent Autoimmune Diabetes in Adults\",\n                \"hba1c\": \"8.20\",\n                \"created_at\": \"2025-12-16T22:44:10.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:10.000000Z\"\n            }\n        },\n        {\n            \"id\": 13,\n            \"name\": \"Patient 12\",\n            \"email\": \"patient12@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0914374272\",\n            \"age\": 67,\n            \"created_at\": \"2025-12-16T22:44:11.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:11.000000Z\",\n            \"patient\": {\n                \"id\": 12,\n                \"user_id\": 13,\n                \"diabetes_type\": \"LADA - Latent Autoimmune Diabetes in Adults\",\n                \"hba1c\": \"7.30\",\n                \"created_at\": \"2025-12-16T22:44:11.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:11.000000Z\"\n            }\n        },\n        {\n            \"id\": 14,\n            \"name\": \"Patient 13\",\n            \"email\": \"patient13@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0922164359\",\n            \"age\": 65,\n            \"created_at\": \"2025-12-16T22:44:11.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:11.000000Z\",\n            \"patient\": {\n                \"id\": 13,\n                \"user_id\": 14,\n                \"diabetes_type\": \"Immune-related Diabetes\",\n                \"hba1c\": \"9.10\",\n                \"created_at\": \"2025-12-16T22:44:11.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:11.000000Z\"\n            }\n        },\n        {\n            \"id\": 15,\n            \"name\": \"Patient 14\",\n            \"email\": \"patient14@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0974879660\",\n            \"age\": 45,\n            \"created_at\": \"2025-12-16T22:44:11.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:11.000000Z\",\n            \"patient\": {\n                \"id\": 14,\n                \"user_id\": 15,\n                \"diabetes_type\": \"Secondary Diabetes due to Pancreatic Disease\",\n                \"hba1c\": \"6.30\",\n                \"created_at\": \"2025-12-16T22:44:11.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:11.000000Z\"\n            }\n        },\n        {\n            \"id\": 16,\n            \"name\": \"Patient 15\",\n            \"email\": \"patient15@test.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"0973658542\",\n            \"age\": 73,\n            \"created_at\": \"2025-12-16T22:44:12.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:12.000000Z\",\n            \"patient\": {\n                \"id\": 15,\n                \"user_id\": 16,\n                \"diabetes_type\": \"Hormone-induced Diabetes\",\n                \"hba1c\": \"7.90\",\n                \"created_at\": \"2025-12-16T22:44:12.000000Z\",\n                \"updated_at\": \"2025-12-16T22:44:12.000000Z\"\n            }\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "userNotifications",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": [
+				{
+					"name": "userNotifications",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/notifications",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"notifications"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Host",
+							"value": "127.0.0.1:8000"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "PHP/8.2.28"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 17 Dec 2025 17:20:43 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "X-RateLimit-Limit",
+							"value": "60"
+						},
+						{
+							"key": "X-RateLimit-Remaining",
+							"value": "59"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"message\": \"Notifications retrieved successfully\",\n    \"data\": [\n        {\n            \"id\": 75,\n            \"user_id\": 5,\n            \"title\": \"نصيحة صحية أسبوعية\",\n            \"message\": \"احرص على تناول الأدوية أو الإنسولين في مواعيدها.\",\n            \"sent_at\": \"2025-12-17T17:20:10.000000Z\",\n            \"created_at\": \"2025-12-17T17:20:10.000000Z\",\n            \"updated_at\": \"2025-12-17T17:20:10.000000Z\"\n        },\n        {\n            \"id\": 72,\n            \"user_id\": 5,\n            \"title\": \"نصيحة صحية أسبوعية\",\n            \"message\": \"تجنب التوتر والضغط النفسي قدر الإمكان.\",\n            \"sent_at\": \"2025-12-17T17:19:10.000000Z\",\n            \"created_at\": \"2025-12-17T17:19:10.000000Z\",\n            \"updated_at\": \"2025-12-17T17:19:10.000000Z\"\n        }\n    ]\n}"
 				}
 			]
 		}
