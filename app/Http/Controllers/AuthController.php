@@ -85,14 +85,17 @@ class AuthController extends Controller
         $data = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+            'firebase_token' => 'required',
         ]);
+        $credentials = $request ->only('email', 'password');
 
-        if (!Auth::attempt($data)) {
+        if (!Auth::attempt($credentials)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
         $user = Auth::user();
-        
+        $user['firebase_token'] = $data['firebase_token'];
+        $user->save();
         
         $token = $user->createToken('api-token')->plainTextToken;
 
