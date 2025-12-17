@@ -77,7 +77,7 @@ The project uses the Google API client library.
 ### Installation
 
 ```bash
-composer require google/apiclient:^2.0
+composer require google/apiclient 
 ```
 
 ### Environment Variables

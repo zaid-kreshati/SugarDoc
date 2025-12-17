@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PatientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,19 @@ Route::controller(AuthController::class)
     Route::post('reset_password', 'reset_password');
     Route::post('confirm_reset_password','confirm_reset_password');
     Route::post('login', 'Login');
-
     Route::post('logout', 'logout')->middleware('auth:sanctum');
     });
 
+
+
+
+Route::middleware('auth:sanctum')->controller(ProfileController::class)->group(function () {
+    Route::get('/profile/show', 'show');
+    Route::post('/profile/update', 'update');
+});
+
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/patients', [PatientController::class, 'index']);
+});
