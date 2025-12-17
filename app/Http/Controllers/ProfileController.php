@@ -37,7 +37,7 @@ class ProfileController extends Controller
             'age' => 'sometimes|integer|min:1',
 
             // patient fields
-            'diabetes_type' => 'sometimes|in:type1,type2',
+            'diabetes_type' => 'sometimes',
             'hba1c' => 'sometimes|nullable|numeric',
 
             // doctor fields
