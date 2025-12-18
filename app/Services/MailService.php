@@ -24,12 +24,10 @@ class MailService
 
     private function authorizeClient(): bool
     {
-        $tokenPath = '/etc/secrets/google-token.json';
-
+        $tokenPath = '/etc/secrets/google_token.json'; // <-- Render secret path
 
         if (! file_exists($tokenPath)) {
-            Log::error('Google token file not found.');
-
+            Log::error('Google token file not found at ' . $tokenPath);
             return false;
         }
 
@@ -39,7 +37,6 @@ class MailService
         if ($this->client->isAccessTokenExpired()) {
             if (! $this->client->getRefreshToken()) {
                 Log::error('Missing refresh_token.');
-
                 return false;
             }
 
@@ -51,6 +48,7 @@ class MailService
 
         return true;
     }
+
 
     private function sendEmail(string $view, array $data, string $to, string $subject): \Illuminate\Http\JsonResponse
     {
@@ -84,10 +82,9 @@ class MailService
 
             return response()->json(['message' => 'Email sent successfully'], 200);
         } catch (\Exception $e) {
-            Log::error('Gmail Send Error: '.$e->getMessage());
+            Log::error('Gmail Send Error: ' . $e->getMessage());
 
-            return response()->json(['error' => 'Failed to send email: '.$e->getMessage()], 500);
-
+            return response()->json(['error' => 'Failed to send email: ' . $e->getMessage()], 500);
         }
     }
 
@@ -107,6 +104,5 @@ class MailService
             'reset_code' => $request['reset_code'],
             'reset_expires_at' => $request['reset_expires_at'],
         ], $request['email'], 'Reset Password');
-
     }
 }
