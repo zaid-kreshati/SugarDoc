@@ -14,7 +14,7 @@ class Auth2Controller extends Controller
 {
     use JsonResponseTrait;
 
-    public function register(Request $request)
+    public function register(Request $request) 
     {
         $validated = $request->validate([
             'name'          => 'required|string|max:255',
@@ -22,7 +22,7 @@ class Auth2Controller extends Controller
             'password'      => 'required|string|min:6',
             'phone'         => 'required|string',
             'age'           => 'required|integer',
-            'diabetes_type' => 'required',
+            'diabetes_type' => 'required|string',
             'hba1c'         => 'nullable|numeric',
         ]);
 
@@ -48,7 +48,7 @@ class Auth2Controller extends Controller
 
         Log::info('User registered successfully', ['user_id' => $user->id]);
 
-        return $this->success($user->load('patient'), 'User registered successfully', 201);
+        return $this->success($user, 'User registered successfully', 201);
     }
 
     public function login(Request $request)
