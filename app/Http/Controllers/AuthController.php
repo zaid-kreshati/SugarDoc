@@ -22,6 +22,7 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users',
                 'password' => 'required|string|min:6',
                 'phone' => 'required|string',
+                'role' => 'in:patient,doctor',
 
                 // patient fields
                 'age' => 'required|integer',
