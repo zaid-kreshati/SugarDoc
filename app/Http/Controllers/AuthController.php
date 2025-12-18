@@ -6,24 +6,13 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\JsonResponseTrait;
-use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-
-
-
 use Exception;
 
 class AuthController extends Controller
 {
     use JsonResponseTrait;
-
-    protected AuthService $authService;
-
-    public function __construct(AuthService $authService)
-    {
-        $this->authService = $authService;
-    }
 
     public function register(Request $request): JsonResponse
     {
@@ -70,22 +59,6 @@ class AuthController extends Controller
 
 
 
-
-    public function resend_code(Request $request): JsonResponse
-    {
-        $data = $request->validate([
-            'email' => 'required|email',
-        ]);
-
-
-        try {
-            $this->authService->resend_code($data['email']);
-
-            return $this->success([], 'Verification code sent to your email', 200);
-        } catch (Exception $e) {
-            return $this->error($e->getMessage());
-        }
-    }
 
 
 
