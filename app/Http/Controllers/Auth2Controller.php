@@ -15,30 +15,20 @@ class Auth2Controller extends Controller
 
     public function register(Request $request)
     {
-        $validated = $request->validate([
-            'name'          => 'required|string|max:255',
-            'email'         => 'required|email|unique:users',
-            'password'      => 'required|string|min:6',
-            'phone'         => 'required|string',
-            'age'           => 'required|integer',
-            'diabetes_type' => 'required',
-            'hba1c'         => 'nullable|numeric',
-        ]);
-
         // Create user
         $user = User::create([
-            'email'    => $validated['email'],
-            'password' => bcrypt($validated['password']),
-            'name'     => $validated['name'],
-            'phone'    => $validated['phone'],
-            'age'      => $validated['age'],
+            'email'    => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+            'name'     => $request->input('name'),
+            'phone'    => $request->input('phone'),
+            'age'      => $request->input('age'),
         ]);
 
         // Create patient info
         Patient::create([
             'user_id'       => $user->id,
-            'diabetes_type' => $validated['diabetes_type'],
-            'hba1c'         => $validated['hba1c'] ?? null,
+            'diabetes_type' => $request->input('diabetes_type'),
+            'hba1c'         => $request->input('hba1c'),
         ]);
 
         return $this->success($user->load('patient'), 'User registered successfully', 201);
@@ -46,12 +36,6 @@ class Auth2Controller extends Controller
 
     public function login(Request $request)
     {
-        $validated = $request->validate([
-            'email'          => 'required|email',
-            'password'       => 'required',
-            'firebase_token' => 'nullable|string',
-        ]);
-
         if (! Auth::attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
@@ -59,8 +43,8 @@ class Auth2Controller extends Controller
         $user = Auth::user();
 
         // Save firebase token if provided
-        if (!empty($validated['firebase_token'])) {
-            $user->firebase_token = $validated['firebase_token'];
+        if ($request->filled('firebase_token')) {
+            $user->firebase_token = $request->input('firebase_token');
             $user->save();
         }
 
