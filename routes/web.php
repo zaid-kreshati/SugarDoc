@@ -17,6 +17,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/health', function () {
+    return response()->json([
+        'status' => 'ok',
+        'app' => config('app.name'),
+        'env' => app()->environment(),
+    ]);
+});
+
+
+
 Route::controller(GoogleController::class)
     ->group(function () {
         Route::get('/google', 'redirect');

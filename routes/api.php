@@ -28,6 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(AuthController::class)
     ->group(function () {
 
+        
     Route::post('initiate_registration','initiate_registration');
     Route::post('confirm_registration', 'confirm_registration');
     Route::post('resend_code', 'resend_code');
