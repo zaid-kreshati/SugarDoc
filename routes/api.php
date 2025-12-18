@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Auth2Controller;
+
 use Illuminate\Support\Facades\Log;
 
 /*
@@ -34,6 +36,14 @@ Route::controller(AuthController::class)
     Route::post('resend_code', 'resend_code');
     Route::post('reset_password', 'reset_password');
     Route::post('confirm_reset_password','confirm_reset_password');
+    Route::post('login', 'Login');
+    Route::post('logout', 'logout')->middleware('auth:sanctum');
+    });
+
+
+    Route::controller(Auth2Controller::class)
+    ->group(function () {
+    Route::post('register', 'register');
     Route::post('login', 'Login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
     });
