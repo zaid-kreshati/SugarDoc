@@ -14,20 +14,22 @@ class FirebaseService
 
     public function __construct()
     {
-    
-        $this->projectId = '/etc/secrets/firebase.project_id';
-       
-        $this->credentials = '/etc/secrets/firebase_credentials.json' ;
+        $this->credentials = env('FIREBASE_CREDENTIALS', '/etc/secrets/firebase_credentials.json');
+        $envProject = env('FIREBASE_PROJECT_ID');
+        $this->projectId = $envProject ?: (file_exists('/etc/secrets/firebase.project_id') ? trim(file_get_contents('/etc/secrets/firebase.project_id')) : '');
+
         Log::info('Firebase credentials path: ' . $this->credentials);
+        Log::info('Firebase project ID: ' . $this->projectId);
+
+        if (!$this->projectId) {
+            Log::error('Missing Firebase project ID');
+            throw new Exception('Missing Firebase project ID');
+        }
 
         if (!file_exists($this->credentials)) {
             Log::error('Firebase credential file not found: ' . $this->credentials);
             throw new Exception('Firebase credential file not found: ' . $this->credentials);
         }
-
-        $json = json_decode(file_get_contents($this->credentials), true);
-
-       
     }
 
     public function sendNotification(string $token, string $title, string $body): array
