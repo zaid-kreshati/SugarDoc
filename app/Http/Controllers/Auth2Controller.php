@@ -35,6 +35,7 @@ class Auth2Controller extends Controller
 
         # add patient fields
         $user->patient()->create([
+            'user_id' => $user->id,
             'diabetes_type' => $request->diabetes_type,
             'hba1c' => $request->hba1c,
         ]);
