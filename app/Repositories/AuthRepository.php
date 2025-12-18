@@ -5,68 +5,101 @@ namespace App\Repositories;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redis;
 
 class AuthRepository
 {
-    protected const REGISTRATION_CACHE_PREFIX = 'registration_';
+    protected const REGISTRATION_CACHE_PREFIX = 'registration:';
+    protected const RESET_CODE_PREFIX = 'reset_code:';
 
-    protected const REGISTRATION_CACHE_MINUTES = 100; // Can easily change it in the future
+    // TTL in seconds (100 minutes)
+    protected const CACHE_TTL = 6000;
+
+    /* =========================
+     | Registration verification
+     ========================= */
 
     public function initiateRegistration(array $data): void
     {
-        $cacheKey = self::REGISTRATION_CACHE_PREFIX.$data['email'];
+        $key = self::REGISTRATION_CACHE_PREFIX . strtolower($data['email']);
 
-        Cache::put($cacheKey, $data, now()->addMinutes(self::REGISTRATION_CACHE_MINUTES));
+        Redis::setex(
+            $key,
+            self::CACHE_TTL,
+            json_encode($data)
+        );
     }
 
-    public function getUserData($email)
+    public function getUserData(string $email): ?array
     {
-        $cacheKey = self::REGISTRATION_CACHE_PREFIX.$email;
+        $key = self::REGISTRATION_CACHE_PREFIX . strtolower($email);
 
-        return Cache::get($cacheKey);
+        $data = Redis::get($key);
+
+        return $data ? json_decode($data, true) : null;
     }
 
-    public function deleteUserData($email): void
+    public function deleteUserData(string $email): void
     {
-        $cacheKey = self::REGISTRATION_CACHE_PREFIX.$email;
-        Cache::forget($cacheKey);
+        $key = self::REGISTRATION_CACHE_PREFIX . strtolower($email);
+        Redis::del($key);
     }
+
+    /* =========================
+     | Password reset
+     ========================= */
 
     public function cacheResetCode(array $request): void
     {
-        $cacheKey = 'reset_code_'.$request['email'];
-        Cache::put($cacheKey, $request, now()->addMinutes(self::REGISTRATION_CACHE_MINUTES));
+        $key = self::RESET_CODE_PREFIX . strtolower($request['email']);
+
+        Redis::setex(
+            $key,
+            self::CACHE_TTL,
+            json_encode($request)
+        );
     }
 
-    public function getResetCode($email)
+    public function getResetCode(string $email): ?array
     {
-        $cacheKey = 'reset_code_'.$email;
+        $key = self::RESET_CODE_PREFIX . strtolower($email);
 
-        return Cache::get($cacheKey);
+        $data = Redis::get($key);
+
+        return $data ? json_decode($data, true) : null;
     }
 
-    public function deleteResetCode($email): void
+    public function deleteResetCode(string $email): void
     {
-        $cacheKey = 'reset_code_'.$email;
-        Cache::forget($cacheKey);
+        $key = self::RESET_CODE_PREFIX . strtolower($email);
+        Redis::del($key);
     }
+
+    /* =========================
+     | Password update
+     ========================= */
 
     /**
      * @throws Exception
      */
-    public function updatePassword(array $request)
+    public function updatePassword(array $request): User
     {
         $user = User::where('email', $request['email'])->first();
+
         if (! $user) {
-            throw new Exception('User not found with email: '.$request['email']);
+            throw new Exception('User not found with email: ' . $request['email']);
         }
+
         $user->password = Hash::make($request['new_password']);
         $user->save();
 
         return $user;
     }
+
+    /* =========================
+     | Authentication
+     ========================= */
 
     /**
      * @throws Exception
@@ -74,35 +107,41 @@ class AuthRepository
     public function login($request): array
     {
         $credentials = $request->only('email', 'password');
+
         if (! Auth::attempt($credentials)) {
             throw new Exception('Invalid credentials');
         }
 
-        $user = User::where('id', Auth::id())->first();
+        $user = User::find(Auth::id());
 
-        if ($request['device_token']) {
+        if (! $user) {
+            throw new Exception('Authenticated user not found');
+        }
+
+        if (! empty($request['device_token'])) {
             $user->update([
                 'device_token' => $request['device_token'],
             ]);
-            $user->save();
         }
+
         $token = $user->createToken('auth_token')->plainTextToken;
         $role = $user->getRoleNames()->first();
 
         return [
             'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
+                'id'    => $user->id,
+                'name'  => $user->name,
                 'email' => $user->email,
             ],
-            'role' => $role,
+            'role'  => $role,
             'token' => $token,
         ];
     }
 
-    /**
-     * Logout user by deleting all tokens.
-     */
+    /* =========================
+     | Logout
+     ========================= */
+
     public function logout($request): void
     {
         $request->user()->tokens()->delete();
