@@ -55,51 +55,11 @@ class AuthService
     /**
      * @throws \Exception
      */
-    public function register(Request $request)
-    {
-
-        $data = $this->authRepository->getUserData($request['email']);
-
-        if (! $data) {
-            throw new Exception('Invalid verification code');
-        }
-
-        if ($data['verification_code'] != $request['code']) {
-            throw new Exception('Invalid verification code');
-        }
-
-        if (now()->isAfter(Carbon::parse($data['verification_expires_at']))) {
-            $this->authRepository->deleteUserData($request['email']);
-            throw new \Exception('Verification code has expired');
-        }
-
-        return $this->Client($data);
-    }
+   
 
     public function Client(array $data)
     {
-        return DB::transaction(function () use ($data) {
-
-            $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'role' => "patient",
-            'phone' => $data['phone'] ?? null,
-            'age' => $data['age'],
-
-        ]);
-
-        $user->patient()->create([
-            'diabetes_type' => $data['diabetes_type'],
-            'hba1c' => $data['hba1c'] ?? null,
-        ]);
-
-            return [
-                'user' => $user,
-                'token' => $user->createToken('auth_token')->plainTextToken,
-            ];
-        });
+        
     }
 
     /**

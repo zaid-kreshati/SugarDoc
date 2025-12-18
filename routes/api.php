@@ -29,7 +29,7 @@ Route::controller(AuthController::class)
     ->group(function () {
 
         
-    Route::post('initiate_registration','initiate_registration');
+    Route::post('register','register');
     Route::post('confirm_registration', 'confirm_registration');
     Route::post('resend_code', 'resend_code');
     Route::post('reset_password', 'reset_password');
