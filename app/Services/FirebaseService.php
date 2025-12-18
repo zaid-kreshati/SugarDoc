@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Notifications;
+namespace App\Services;
 
 use Exception;
 use Google\Client as GoogleClient;
