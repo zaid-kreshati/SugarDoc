@@ -7,14 +7,13 @@ use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Traits\JsonResponseTrait;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class Auth2Controller extends Controller
 {
     use JsonResponseTrait;
 
-    public function register(Request $request) 
+    public function register(Request $request)
     {
         $validated = $request->validate([
             'name'          => 'required|string|max:255',
@@ -22,63 +21,56 @@ class Auth2Controller extends Controller
             'password'      => 'required|string|min:6',
             'phone'         => 'required|string',
             'age'           => 'required|integer',
-            'diabetes_type' => 'required|string',
+            'diabetes_type' => 'required',
             'hba1c'         => 'nullable|numeric',
         ]);
 
-        $user = DB::transaction(function () use ($validated) {
-            // Create the user
-            $user = User::create([
-                'email'    => $validated['email'],
-                'password' => bcrypt($validated['password']),
-                'name'     => $validated['name'],
-                'phone'    => $validated['phone'],
-                'age'      => $validated['age'],
-            ]);
+        // Create user
+        $user = User::create([
+            'email'    => $validated['email'],
+            'password' => bcrypt($validated['password']),
+            'name'     => $validated['name'],
+            'phone'    => $validated['phone'],
+            'age'      => $validated['age'],
+        ]);
 
-            // Create patient info
-            Patient::create([
-                'user_id'       => $user->id,
-                'diabetes_type' => $validated['diabetes_type'],
-                'hba1c'         => $validated['hba1c'] ?? null,
-            ]);
+        // Create patient info
+        Patient::create([
+            'user_id'       => $user->id,
+            'diabetes_type' => $validated['diabetes_type'],
+            'hba1c'         => $validated['hba1c'] ?? null,
+        ]);
 
-            return $user;
-        });
-
-        Log::info('User registered successfully', ['user_id' => $user->id]);
-
-        return $this->success($user, 'User registered successfully', 201);
+        return $this->success($user->load('patient'), 'User registered successfully', 201);
     }
 
     public function login(Request $request)
     {
-        $data = $request->validate([
+        $validated = $request->validate([
             'email'          => 'required|email',
             'password'       => 'required',
-            'firebase_token' => 'required',
+            'firebase_token' => 'nullable|string',
         ]);
 
-        $credentials = $request->only('email', 'password');
-        Log::info('Login credentials', $credentials);
-
-        if (! Auth::attempt($credentials)) {
+        if (! Auth::attempt($request->only('email', 'password'))) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
         $user = Auth::user();
-        $user->firebase_token = $data['firebase_token'];
-        $user->save();
+
+        // Save firebase token if provided
+        if (!empty($validated['firebase_token'])) {
+            $user->firebase_token = $validated['firebase_token'];
+            $user->save();
+        }
 
         $token = $user->createToken('api-token')->plainTextToken;
 
-        $response = [
+        return $this->success([
             'user'  => $user,
             'role'  => $user->getRoleNames()->first() ?? null,
             'token' => $token,
-        ];
-
-        return $this->success($response, 'Verification code sent to your email', 200);
+        ], 'Login successful', 200);
     }
 
     public function logout(Request $request)
