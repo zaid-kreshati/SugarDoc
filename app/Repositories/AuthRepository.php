@@ -6,14 +6,14 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Redis as RedisFacade;
 
 class AuthRepository
 {
     protected const REGISTRATION_CACHE_PREFIX = 'registration:';
     protected const RESET_CODE_PREFIX = 'reset_code:';
 
-    // TTL in seconds (100 minutes)
+    // 100 minutes
     protected const CACHE_TTL = 6000;
 
     /* =========================
@@ -22,28 +22,33 @@ class AuthRepository
 
     public function initiateRegistration(array $data): void
     {
-        $key = self::REGISTRATION_CACHE_PREFIX . strtolower($data['email']);
+        try {
+            $key = self::REGISTRATION_CACHE_PREFIX . strtolower($data['email']);
 
-        Redis::setex(
-            $key,
-            self::CACHE_TTL,
-            json_encode($data)
-        );
+            RedisFacade::setex($key, self::CACHE_TTL, json_encode($data));
+        } catch (\Throwable $e) {
+            // optional: log error
+        }
     }
 
     public function getUserData(string $email): ?array
     {
-        $key = self::REGISTRATION_CACHE_PREFIX . strtolower($email);
+        try {
+            $key = self::REGISTRATION_CACHE_PREFIX . strtolower($email);
+            $data = RedisFacade::get($key);
 
-        $data = Redis::get($key);
-
-        return $data ? json_decode($data, true) : null;
+            return $data ? json_decode($data, true) : null;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     public function deleteUserData(string $email): void
     {
-        $key = self::REGISTRATION_CACHE_PREFIX . strtolower($email);
-        Redis::del($key);
+        try {
+            $key = self::REGISTRATION_CACHE_PREFIX . strtolower($email);
+            RedisFacade::del($key);
+        } catch (\Throwable $e) {}
     }
 
     /* =========================
@@ -52,37 +57,36 @@ class AuthRepository
 
     public function cacheResetCode(array $request): void
     {
-        $key = self::RESET_CODE_PREFIX . strtolower($request['email']);
-
-        Redis::setex(
-            $key,
-            self::CACHE_TTL,
-            json_encode($request)
-        );
+        try {
+            $key = self::RESET_CODE_PREFIX . strtolower($request['email']);
+            RedisFacade::setex($key, self::CACHE_TTL, json_encode($request));
+        } catch (\Throwable $e) {}
     }
 
     public function getResetCode(string $email): ?array
     {
-        $key = self::RESET_CODE_PREFIX . strtolower($email);
+        try {
+            $key = self::RESET_CODE_PREFIX . strtolower($email);
+            $data = RedisFacade::get($key);
 
-        $data = Redis::get($key);
-
-        return $data ? json_decode($data, true) : null;
+            return $data ? json_decode($data, true) : null;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     public function deleteResetCode(string $email): void
     {
-        $key = self::RESET_CODE_PREFIX . strtolower($email);
-        Redis::del($key);
+        try {
+            $key = self::RESET_CODE_PREFIX . strtolower($email);
+            RedisFacade::del($key);
+        } catch (\Throwable $e) {}
     }
 
     /* =========================
      | Password update
      ========================= */
 
-    /**
-     * @throws Exception
-     */
     public function updatePassword(array $request): User
     {
         $user = User::where('email', $request['email'])->first();
@@ -101,14 +105,9 @@ class AuthRepository
      | Authentication
      ========================= */
 
-    /**
-     * @throws Exception
-     */
     public function login($request): array
     {
-        $credentials = $request->only('email', 'password');
-
-        if (! Auth::attempt($credentials)) {
+        if (! Auth::attempt($request->only('email', 'password'))) {
             throw new Exception('Invalid credentials');
         }
 
@@ -119,13 +118,8 @@ class AuthRepository
         }
 
         if (! empty($request['device_token'])) {
-            $user->update([
-                'device_token' => $request['device_token'],
-            ]);
+            $user->update(['device_token' => $request['device_token']]);
         }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-        $role = $user->getRoleNames()->first();
 
         return [
             'user' => [
@@ -133,8 +127,8 @@ class AuthRepository
                 'name'  => $user->name,
                 'email' => $user->email,
             ],
-            'role'  => $role,
-            'token' => $token,
+            'role'  => $user->getRoleNames()->first(),
+            'token' => $user->createToken('auth_token')->plainTextToken,
         ];
     }
 
