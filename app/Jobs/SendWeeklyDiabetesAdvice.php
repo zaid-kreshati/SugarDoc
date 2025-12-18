@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use App\Services\FirebaseService;
 
+
 use App\Models\Notification;
 use Carbon\Carbon;
 
@@ -20,6 +21,8 @@ class SendWeeklyDiabetesAdvice implements ShouldQueue
 
     public function handle(FirebaseService $firebase): void
     {
+        Log::info('SendWeeklyDiabetesAdvice started for user: ' );
+
         $advices = config('diabetes_advices');
 
         // اختيار نصيحة عشوائية

@@ -9,6 +9,12 @@ class FirebaseService
 {
     protected function getAccessToken(): string
     {
+
+    //     $firebase = (new \Kreait\Firebase\Factory)
+    // ->withServiceAccount(config('app.firebase_credentials'))
+    // ->create();
+
+
         $client = new GoogleClient();
         $client->setAuthConfig(storage_path('app/firebase/firebase_credentials.json'));
         $client->addScope('https://www.googleapis.com/auth/firebase.messaging');

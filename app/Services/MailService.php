@@ -92,6 +92,8 @@ class MailService
 
     public function sendVerificationEmail(array $request)
     {
+        Log::error('sending verification email to ' . $request['email']);
+
         return $this->sendEmail('google_auth', [
             'verification_code' => $request['verification_code'],
             'verification_expires_at' => $request['verification_expires_at'],
