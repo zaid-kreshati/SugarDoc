@@ -27,7 +27,7 @@ class FirebaseService
 }
 
 
-    public function sendNotification(string $token, string $title, string $body): bool
+    public function sendNotification(string $token, string $title, string $body)
     {
         Log::info("Preparing to send notification to token: $token");
 
