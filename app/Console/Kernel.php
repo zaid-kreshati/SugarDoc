@@ -5,6 +5,9 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Jobs\SendWeeklyDiabetesAdvice;
+use Illuminate\Support\Facades\Log;
+
+
 
 class Kernel extends ConsoleKernel
 {
@@ -13,6 +16,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        Log::info('Scheduling SendWeeklyDiabetesAdvice job11111');
         $schedule->job(new SendWeeklyDiabetesAdvice)
             ->everyMinute();
     }

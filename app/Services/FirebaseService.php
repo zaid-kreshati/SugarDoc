@@ -9,11 +9,14 @@ use Illuminate\Support\Facades\Log;
 
 class FirebaseService
 {
-    protected string $credentials;
+    protected $credentials;
+    protected $projectId;
 
     public function __construct()
     {
-        // Use Render secret file path or fallback
+    
+        $this->projectId = '/etc/secrets/firebase.project_id';
+       
         $this->credentials = '/etc/secrets/firebase_credentials.json' ;
         Log::info('Firebase credentials path: ' . $this->credentials);
 
@@ -55,6 +58,7 @@ class FirebaseService
                     'data' => [
                         'type' => 'chat_message',
                         'sender_id' => 'system',
+                        'conversation_id' => '456',
                         'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
                     ],
                 ]
@@ -62,7 +66,7 @@ class FirebaseService
 
             $response = Http::withToken($accessToken)
                 ->withHeaders(['Content-Type' => 'application/json'])
-                ->post("https://fcm.googleapis.com/v1/messages:send", $message);
+                ->post("https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send", $message);
 
             if ($response->failed()) {
                 Log::error('Firebase sendNotification failed: ' . $response->body());
@@ -77,4 +81,9 @@ class FirebaseService
             throw $e;
         }
     }
+
+
+
+
+
 }

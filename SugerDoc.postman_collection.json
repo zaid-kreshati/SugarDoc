@@ -261,6 +261,134 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"status\": true,\n    \"message\": \"Verification code sent to your email\",\n    \"data\": {\n        \"$user\": {\n            \"id\": 3,\n            \"name\": \"زيد\",\n            \"email\": \"zed.kreshati.2001@gmail.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": null,\n            \"age\": 33,\n            \"created_at\": \"2025-12-16T19:11:09.000000Z\",\n            \"updated_at\": \"2025-12-16T19:11:09.000000Z\"\n        },\n        \"token\": \"5|CXcCiMtDwotvkd76wzJwI9hLuaFsadQfxGCr4KKXd8b4d94a\"\n    }\n}"
+						},
+						{
+							"name": "globalLogin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "user1@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "firebase_token",
+											"value": "fcm-aaa",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{global}}/api/login",
+									"host": [
+										"{{global}}"
+									],
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 18 Dec 2025 15:11:39 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "9aff980719f20e87-AMS"
+								},
+								{
+									"key": "access-control-allow-origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "Host",
+									"value": "sugardoc.onrender.com"
+								},
+								{
+									"key": "rndr-id",
+									"value": "a8d51bfc-af6d-4ad0"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "PHP/8.2.29"
+								},
+								{
+									"key": "x-ratelimit-limit",
+									"value": "60"
+								},
+								{
+									"key": "x-ratelimit-remaining",
+									"value": "59"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"Verification code sent to your email\",\n    \"data\": {\n        \"user\": {\n            \"id\": 68,\n            \"name\": \"ahmad\",\n            \"email\": \"user1@gmail.com\",\n            \"email_verified_at\": null,\n            \"role\": \"patient\",\n            \"phone\": \"1234\",\n            \"age\": 18,\n            \"created_at\": \"2025-12-18T15:10:34.000000Z\",\n            \"updated_at\": \"2025-12-18T15:11:38.000000Z\",\n            \"firebase_token\": \"fcm-aaa\"\n        },\n        \"role\": \"patient\",\n        \"token\": \"28|Ee1p7oxKepYsRMtvSv40jvsUDPgq3IoMQUgt5o9D2aaec2ad\"\n    }\n}"
 						}
 					]
 				},
@@ -352,14 +480,6 @@
 					]
 				},
 				{
-					"name": "firebase-token",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
 					"name": "register",
 					"request": {
 						"auth": {
@@ -428,7 +548,149 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "globalResponse",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "ahmad",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "user1@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "text"
+										},
+										{
+											"key": "age",
+											"value": "18",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "1234",
+											"type": "text"
+										},
+										{
+											"key": "diabetes_type",
+											"value": "type1",
+											"type": "text"
+										},
+										{
+											"key": "hba1c",
+											"value": "1.1",
+											"type": "text"
+										},
+										{
+											"key": "role",
+											"value": "patient",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{global}}/api/register",
+									"host": [
+										"{{global}}"
+									],
+									"path": [
+										"api",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Date",
+									"value": "Thu, 18 Dec 2025 15:10:34 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-RAY",
+									"value": "9aff9672cc62b8c1-AMS"
+								},
+								{
+									"key": "access-control-allow-origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "Host",
+									"value": "sugardoc.onrender.com"
+								},
+								{
+									"key": "rndr-id",
+									"value": "1b6f11d5-05d9-4527"
+								},
+								{
+									"key": "vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "PHP/8.2.29"
+								},
+								{
+									"key": "x-ratelimit-limit",
+									"value": "60"
+								},
+								{
+									"key": "x-ratelimit-remaining",
+									"value": "59"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "cf-cache-status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": true,\n    \"message\": \"data initiated successfully and verification code sent to your email\",\n    \"data\": {\n        \"user\": {\n            \"name\": \"ahmad\",\n            \"email\": \"user1@gmail.com\",\n            \"role\": \"patient\",\n            \"phone\": \"1234\",\n            \"age\": \"18\",\n            \"updated_at\": \"2025-12-18T15:10:34.000000Z\",\n            \"created_at\": \"2025-12-18T15:10:34.000000Z\",\n            \"id\": 68\n        },\n        \"token\": \"27|iSMO2pw0PVnhTkHqcykjfvRRddnFBIlRU3L6tZGE75620261\"\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -779,6 +1041,133 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"status\": true,\n    \"message\": \"Profile updated successfully\",\n    \"data\": {\n        \"id\": 2,\n        \"name\": \"zaid232\",\n        \"email\": \"patient1@test.com\",\n        \"email_verified_at\": null,\n        \"role\": \"patient\",\n        \"phone\": \"0981396641\",\n        \"age\": 55,\n        \"created_at\": \"2025-12-16T22:44:06.000000Z\",\n        \"updated_at\": \"2025-12-16T22:49:10.000000Z\",\n        \"patient\": {\n            \"id\": 1,\n            \"user_id\": 2,\n            \"diabetes_type\": \"Syndrome-related Diabetes\",\n            \"hba1c\": \"6.80\",\n            \"created_at\": \"2025-12-16T22:44:06.000000Z\",\n            \"updated_at\": \"2025-12-16T22:44:06.000000Z\"\n        },\n        \"doctor\": null\n    }\n}"
+				},
+				{
+					"name": "globalResponse",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "zaid232111",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "22123123123",
+									"type": "text"
+								},
+								{
+									"key": "age",
+									"value": "12",
+									"type": "text"
+								},
+								{
+									"key": "diabetes_type",
+									"value": "type2",
+									"type": "text"
+								},
+								{
+									"key": "hba1c",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{global}}/api/profile/update",
+							"host": [
+								"{{global}}"
+							],
+							"path": [
+								"api",
+								"profile",
+								"update"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Date",
+							"value": "Thu, 18 Dec 2025 15:15:13 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "9aff9d436a3f0e87-AMS"
+						},
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, private"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "br"
+						},
+						{
+							"key": "Host",
+							"value": "sugardoc.onrender.com"
+						},
+						{
+							"key": "rndr-id",
+							"value": "30ee0c4f-5ea2-455b"
+						},
+						{
+							"key": "vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "PHP/8.2.29"
+						},
+						{
+							"key": "x-ratelimit-limit",
+							"value": "60"
+						},
+						{
+							"key": "x-ratelimit-remaining",
+							"value": "58"
+						},
+						{
+							"key": "x-render-origin-server",
+							"value": "Render"
+						},
+						{
+							"key": "cf-cache-status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=86400"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"message\": \"Profile updated successfully\",\n    \"data\": {\n        \"id\": 68,\n        \"name\": \"zaid232111\",\n        \"email\": \"user1@gmail.com\",\n        \"email_verified_at\": null,\n        \"role\": \"patient\",\n        \"phone\": \"22123123123\",\n        \"age\": 12,\n        \"created_at\": \"2025-12-18T15:10:34.000000Z\",\n        \"updated_at\": \"2025-12-18T15:15:13.000000Z\",\n        \"firebase_token\": \"fcm-aaa\",\n        \"patient\": {\n            \"id\": 16,\n            \"user_id\": 68,\n            \"diabetes_type\": \"type2\",\n            \"hba1c\": \"10.00\",\n            \"created_at\": \"2025-12-18T15:10:34.000000Z\",\n            \"updated_at\": \"2025-12-18T15:15:13.000000Z\"\n        },\n        \"doctor\": null\n    }\n}"
 				}
 			]
 		},
