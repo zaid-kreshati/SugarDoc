@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
     {
         Log::info('Scheduling SendWeeklyDiabetesAdvice job11111');
         $schedule->job(new SendWeeklyDiabetesAdvice)
-            ->everyMinute();
+            ->everyWeek();
     }
 
     /**
