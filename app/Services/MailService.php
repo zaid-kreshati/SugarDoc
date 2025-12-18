@@ -24,7 +24,7 @@ class MailService
 
     private function authorizeClient(): bool
     {
-        $tokenPath = '/etc/secrets/google_token.json'; // <-- Render secret path
+        $tokenPath = '/etc/secrets/google_token.json'; // read-only
 
         if (! file_exists($tokenPath)) {
             Log::error('Google token file not found at ' . $tokenPath);
@@ -41,13 +41,15 @@ class MailService
             }
 
             $newToken = $this->client->fetchAccessTokenWithRefreshToken($this->client->getRefreshToken());
+
+            // Merge token in memory only — do NOT write to file
             $token = array_merge($token, $newToken);
-            file_put_contents($tokenPath, json_encode($token));
             $this->client->setAccessToken($token);
         }
 
         return true;
     }
+
 
 
     private function sendEmail(string $view, array $data, string $to, string $subject): \Illuminate\Http\JsonResponse
