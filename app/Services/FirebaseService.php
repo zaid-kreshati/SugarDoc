@@ -15,7 +15,7 @@ class FirebaseService
     public function __construct()
     {
         // Use Render secret file path or fallback
-        $this->credentials = config('firebase.credentials');
+        $this->credentials = '/etc/secrets/firebase_credentials.json' ;
         Log::info('Firebase credentials path: ' . $this->credentials);
 
         if (!file_exists($this->credentials)) {
