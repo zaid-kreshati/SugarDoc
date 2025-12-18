@@ -16,7 +16,10 @@ class FirebaseService
 
 
         $client = new GoogleClient();
-        $client->setAuthConfig(storage_path('app/firebase/firebase_credentials.json'));
+        $client->setAuthConfig('/etc/secrets/firebase_credentials.json');
+
+
+        // $client->setAuthConfig(storage_path('app/firebase/firebase_credentials.json'));
         $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
 
         $token = $client->fetchAccessTokenWithAssertion();
