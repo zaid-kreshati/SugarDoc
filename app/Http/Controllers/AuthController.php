@@ -35,7 +35,7 @@ class AuthController extends Controller
                     'name' => $request['name'],
                     'email' => $request['email'],
                     'password' => bcrypt($request['password']),
-                    'role' => "patient",
+                    'role' => $request['role'] ?? 'patient', 
                     'phone' => $request['phone'] ?? null,
                     'age' => $request['age'],
 

@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -75,8 +75,12 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => 'prefer',
+            'sslmode' => env('DB_SSLMODE', 'require'),
+            'options' => [
+                PDO::ATTR_TIMEOUT => 5,
+            ],
         ],
+
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
@@ -121,17 +125,17 @@ return [
 
     'redis' => [
 
-    'client' => env('REDIS_CLIENT', 'predis'),
+        'client' => env('REDIS_CLIENT', 'predis'),
 
-    'options' => [
-        'cluster' => 'redis',
-        'prefix' => env('APP_NAME', 'laravel') . '_',
-    ],
+        'options' => [
+            'cluster' => 'redis',
+            'prefix' => env('APP_NAME', 'laravel') . '_',
+        ],
 
-    'default' => [
-        'url' => env('REDIS_URL'),
-        'database' => 0,
+        'default' => [
+            'url' => env('REDIS_URL'),
+            'database' => 0,
+        ],
     ],
-],
 
 ];
