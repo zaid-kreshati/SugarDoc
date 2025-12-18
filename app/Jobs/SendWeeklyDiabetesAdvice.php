@@ -31,8 +31,9 @@ class SendWeeklyDiabetesAdvice implements ShouldQueue
 
     foreach ($patients as $patient) {
         try {
-            $firebaseService->sendNotification($patient->firebase_token, 'نصيحة صحية أسبوعية', $advice);
+                    
             Log::info('Notification sent', ['user_id' => $patient->id]);
+            $firebaseService->sendNotification($patient->firebase_token, 'نصيحة صحية أسبوعية', $advice);
         } catch (\Exception $e) {
             Log::error('Failed sending notification', [
                 'user_id' => $patient->id,
