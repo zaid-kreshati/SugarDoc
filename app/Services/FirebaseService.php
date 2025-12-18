@@ -2,38 +2,49 @@
 
 namespace App\Services\Notifications;
 
-
 use Exception;
 use Google\Client as GoogleClient;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
-class FirebaseNotificationService
+
+class FirebaseService
 {
-    protected $projectId;
-    protected $credentials;
+    protected string $projectId;
+    protected string $credentials;
 
     public function __construct()
     {
+        // Use Render secret file path or fallback
         $this->credentials = config('firebase.credentials');
+        Log::info('Firebase credentials path: ' . $this->credentials);
+
+        if (!file_exists($this->credentials)) {
+            Log::error('Firebase credential file not found: ' . $this->credentials);
+            throw new Exception('Firebase credential file not found: ' . $this->credentials);
+        }
+
+        $json = json_decode(file_get_contents($this->credentials), true);
+        $this->projectId = $json['project_id'] ?? null;
+
+        if (!$this->projectId) {
+            Log::error('Project ID not found in Firebase credentials');
+            throw new Exception('Project ID not found in Firebase credentials');
+        }
     }
 
-    /**
-     * @throws \Google\Exception
-     * @throws \Illuminate\Http\Client\ConnectionException
-     */
     public function sendNotification(string $token, string $title, string $body): array
     {
-        $client = new GoogleClient();
-        $client->setAuthConfig($this->credentials);
-        $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
-        $client->refreshTokenWithAssertion();
+        Log::info("Preparing to send notification to token: $token");
 
-        $accessToken = $client->getAccessToken()['access_token'];
+        try {
+            $client = new GoogleClient();
+            $client->setAuthConfig($this->credentials);
+            $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
+            $client->refreshTokenWithAssertion();
 
+            $accessToken = $client->getAccessToken()['access_token'];
 
-        $response = Http::withToken($accessToken)
-            ->withHeaders(['Content-Type' => 'application/json'])
-            ->post("https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send", [
+            $message = [
                 'message' => [
                     'token' => $token,
                     'notification' => [
@@ -43,74 +54,32 @@ class FirebaseNotificationService
                     'android' => [
                         'priority' => 'high',
                         'notification' => [
-                            'sound' => 'default', // Or use a custom sound uploaded to the app
+                            'sound' => 'default',
                         ],
                     ],
                     'data' => [
                         'type' => 'chat_message',
-                        'sender_id' => '123',
-                        'conversation_id' => '456',
-                        'click_action' => 'FLUTTER_NOTIFICATION_CLICK', // Required for background tap to work
-                    ]
-                ]
-            ]);
-
-        if ($response->failed()) {
-
-            Log::info("Erroreeeee" . $response->body());
-            throw new Exception($response->body());
-        }
-
-
-        return $response->json();
-    }
-
-
-    /**
-     * @throws \Google\Exception
-     * @throws \Illuminate\Http\Client\ConnectionException
-     */
-    public function sendNotificationNew(string $token, string $title, string $body): array
-    {
-        $client = new GoogleClient();
-        $client->setAuthConfig($this->credentials);
-        $client->addScope('https://www.googleapis.com/auth/firebase.messaging');
-        $client->refreshTokenWithAssertion();
-
-        $accessToken = $client->getAccessToken()['access_token'];
-
-        $message = [
-            'message' => [
-                'token' => $token,
-                'notification' => [
-                    'title' => $title,
-                    'body' => $body,
-                ],
-                'android' => [
-                    'priority' => 'high',
-                    'notification' => [
-                        'sound' => 'default', // Or use a custom sound uploaded to the app
+                        'sender_id' => 'system',
+                        'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
                     ],
-                ],
-                'data' => [
-                    'type' => 'chat_message',
-                    'sender_id' => '123',
-                    'conversation_id' => '456',
-                    'click_action' => 'FLUTTER_NOTIFICATION_CLICK', // Required for background tap to work
-                ],
+                ]
+            ];
 
-            ]
-        ];
+            $response = Http::withToken($accessToken)
+                ->withHeaders(['Content-Type' => 'application/json'])
+                ->post("https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send", $message);
 
-        $response = Http::withToken($accessToken)
-            ->withHeaders(['Content-Type' => 'application/json'])
-            ->post("https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send", $message);
+            if ($response->failed()) {
+                Log::error('Firebase sendNotification failed: ' . $response->body());
+                throw new Exception($response->body());
+            }
 
-        if ($response->failed()) {
-            Log::info("Erroreeeee" . $response->body());
-            throw new Exception($response->body());
+            Log::info('Firebase notification sent successfully', ['response' => $response->json()]);
+            return $response->json();
+
+        } catch (Exception $e) {
+            Log::error('Firebase sendNotification exception: ' . $e->getMessage());
+            throw $e;
         }
-
-        return $response->json();
     }
 }
