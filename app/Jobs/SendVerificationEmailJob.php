@@ -8,6 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
+
+
 
 class SendVerificationEmailJob implements ShouldQueue
 {
@@ -28,6 +31,8 @@ class SendVerificationEmailJob implements ShouldQueue
      */
     public function handle(MailService $mailService): void
     {
+        Log::info('Secrets folder: ' . implode(', ', scandir('/etc/secrets')));
+
         $mailService->sendVerificationEmail($this->mailData);
 
     }
