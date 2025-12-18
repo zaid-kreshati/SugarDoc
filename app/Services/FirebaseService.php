@@ -14,9 +14,9 @@ class FirebaseService
 
     public function __construct()
     {
-    
+
         $this->projectId = '/etc/secrets/firebase.project_id';
-        $this->credentials = '/etc/secrets/firebase_credentials.json' ;
+        $this->credentials = '/etc/secrets/firebase_credentials.json';
 
 
         Log::info('Firebase credentials path: ' . $this->credentials);
@@ -31,8 +31,6 @@ class FirebaseService
             Log::error('Firebase credential file not found: ' . $this->credentials);
             throw new Exception('Firebase credential file not found: ' . $this->credentials);
         }
-
-       
     }
 
     public function sendNotification(string $token, string $title, string $body): array
@@ -47,48 +45,37 @@ class FirebaseService
 
             $accessToken = $client->getAccessToken()['access_token'];
 
-            $message = [
-                'message' => [
-                    'token' => $token,
-                    'notification' => [
-                        'title' => $title,
-                        'body' => $body,
-                    ],
-                    'android' => [
-                        'priority' => 'high',
-                        'notification' => [
-                            'sound' => 'default',
-                        ],
-                    ],
-                    'data' => [
-                        'type' => 'chat_message',
-                        'sender_id' => 'system',
-                        'conversation_id' => '456',
-                        'click_action' => 'FLUTTER_NOTIFICATION_CLICK',
-                    ],
-                ]
-            ];
 
             $response = Http::withToken($accessToken)
                 ->withHeaders(['Content-Type' => 'application/json'])
-                ->post("https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send", $message);
+                ->post("https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send", [
+                    'message' => [
+                        'token' => $token,
+                        'notification' => [
+                            'title' => $title,
+                            'body' => $body,
+                        ],
+                        'android' => [
+                            'priority' => 'high',
+                            'notification' => [
+                                'sound' => 'default', // Or use a custom sound uploaded to the app
+                            ],
+                        ],
+                        'data' => [
+                            'type' => 'chat_message',
+                            'sender_id' => '123',
+                            'conversation_id' => '456',
+                            'click_action' => 'FLUTTER_NOTIFICATION_CLICK', // Required for background tap to work
+                        ]
+                    ]
+                ]);
 
-            if ($response->failed()) {
-                Log::error('Firebase sendNotification failed: ' . $response->body());
-                throw new Exception($response->body());
-            }
 
             Log::info('Firebase notification sent successfully', ['response' => $response->json()]);
             return $response->json();
-
         } catch (Exception $e) {
             Log::error('Firebase sendNotification exception: ' . $e->getMessage());
             throw $e;
         }
     }
-
-
-
-
-
 }
