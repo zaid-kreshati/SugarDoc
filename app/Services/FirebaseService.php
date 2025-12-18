@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 
 class FirebaseService
 {
-    protected string $projectId;
     protected string $credentials;
 
     public function __construct()
@@ -63,7 +62,7 @@ class FirebaseService
 
             $response = Http::withToken($accessToken)
                 ->withHeaders(['Content-Type' => 'application/json'])
-                ->post("https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send", $message);
+                ->post("https://fcm.googleapis.com/v1/messages:send", $message);
 
             if ($response->failed()) {
                 Log::error('Firebase sendNotification failed: ' . $response->body());
