@@ -24,7 +24,7 @@ class MailService
 
     private function authorizeClient(): bool
     {
-        $tokenPath = storage_path('app/google-token.json');
+        $tokenPath = storage_path('etc/secrets/google-token.json');
 
         if (! file_exists($tokenPath)) {
             Log::error('Google token file not found.');
