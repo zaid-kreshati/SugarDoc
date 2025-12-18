@@ -24,12 +24,8 @@ class FirebaseService
         }
 
         $json = json_decode(file_get_contents($this->credentials), true);
-        $this->projectId = $json['project_id'] ?? null;
 
-        if (!$this->projectId) {
-            Log::error('Project ID not found in Firebase credentials');
-            throw new Exception('Project ID not found in Firebase credentials');
-        }
+       
     }
 
     public function sendNotification(string $token, string $title, string $body): array
